@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPA SMK Muhaja - Laskar Pecinta Alam</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lpa: {
+                            green: '#1e4d2b',
+                            darkgreen: '#13331c',
+                            gold: '#e5c158',
+                            lightgold: '#f3e39d',
+                            cream: '#f8f6f0',
+                            dark: '#121212'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .carousel-item {
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .carousel-item.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-lpa-darkgreen text-white sticky top-0 z-50 shadow-lg border-b-2 border-lpa-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('beranda')">
+                    <!-- Symbolic Circle Badge -->
+                    <div class="w-12 h-12 rounded-full border-2 border-lpa-gold bg-lpa-green flex items-center justify-center shadow-md">
+                        <i class="fa-solid font-bold text-lpa-gold text-lg">LPA</i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-wide text-white leading-tight">LPA MUHAJA</h1>
+                        <p class="text-xs text-lpa-gold font-semibold tracking-wider">BHAWA BHUMI ANGKASA</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex space-x-2">
+                    <button id="nav-beranda" onclick="switchTab('beranda')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 bg-lpa-gold text-lpa-darkgreen shadow">
+                        <i class="fa-solid fa-house mr-2"></i>Beranda
+                    </button>
+                    <button id="nav-profil" onclick="switchTab('profil')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-lpa-green text-gray-200">
+                        <i class="fa-solid fa-compass mr-2"></i>Profil
+                    </button>
+                    <button id="nav-kegiatan" onclick="switchTab('kegiatan')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-lpa-green text-gray-200">
+                        <i class="fa-solid fa-mountain-sun mr-2"></i>Kegiatan & Galeri
+                    </button>
+                    <button id="nav-absen" onclick="switchTab('absen')" class="nav-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-lpa-green text-gray-200">
+                        <i class="fa-solid fa-clipboard-user mr-2"></i>Absen
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-lpa-gold focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-lpa-darkgreen border-t border-lpa-green px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md font-semibold text-white hover:bg-lpa-green">
+                <i class="fa-solid fa-house mr-2 text-lpa-gold"></i>Beranda
+            </button>
+            <button onclick="switchTab('profil'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md font-semibold text-white hover:bg-lpa-green">
+                <i class="fa-solid fa-compass mr-2 text-lpa-gold"></i>Profil
+            </button>
+            <button onclick="switchTab('kegiatan'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md font-semibold text-white hover:bg-lpa-green">
+                <i class="fa-solid fa-mountain-sun mr-2 text-lpa-gold"></i>Kegiatan & Galeri
+            </button>
+            <button onclick="switchTab('absen'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md font-semibold text-white hover:bg-lpa-green">
+                <i class="fa-solid fa-clipboard-user mr-2 text-lpa-gold"></i>Absen
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ================= TAB 1: BERANDA ================= -->
+        <section id="tab-beranda" class="tab-content space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="bg-lpa-green rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden border-2 border-lpa-gold">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-lpa-gold text-lpa-darkgreen text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-3">Est. 2025</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">Laskar Pecinta Alam <br><span class="text-lpa-gold">SMK Muhaja</span></h2>
+                    <p class="text-lpa-cream text-base sm:text-lg mb-6 italic">"Bhawa Bhumi Angkasa"</p>
+                    <p class="text-gray-200 text-sm sm:text-base leading-relaxed mb-6">Wadah pembentukan karakter, kepemimpinan, dan kecintaan terhadap alam semesta bagi generasi muda SMK Muhaja.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="switchTab('profil')" class="bg-lpa-gold text-lpa-darkgreen hover:bg-lpa-lightgold font-bold px-5 py-2.5 rounded-xl transition shadow">Lihat Profil</button>
+                        <button onclick="switchTab('absen')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-5 py-2.5 rounded-xl transition backdrop-blur-sm">Isi Presensi</button>
+                    </div>
+                </div>
+                <!-- Background Decorative Icon -->
+                <i class="fa-solid fa-mountain absolute -right-10 -bottom-10 text-white/5 text-[220px] pointer-events-none"></i>
+            </div>
+
+            <!-- CAROUSEL GAMBAR -->
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-100">
+                <h3 class="text-xl font-bold text-lpa-darkgreen mb-4 flex items-center">
+                    <i class="fa-solid fa-images text-lpa-gold mr-2"></i> Galeri Utama (Carousel)
+                </h3>
+                
+                <div class="relative rounded-xl overflow-hidden group shadow-lg h-64 sm:h-96 bg-gray-900">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active relative h-full">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Pegunungan" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                            <p class="text-white font-semibold text-base sm:text-lg">Eksplorasi Keindahan Alam Indonesia</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item relative h-full">
+                        <img src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=1200&q=80" alt="Camping" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                            <p class="text-white font-semibold text-base sm:text-lg">Kegiatan Kemah & Keakraban Anggota</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item relative h-full">
+                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=80" alt="Trekking" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                            <p class="text-white font-semibold text-base sm:text-lg">Diksar & Pelatihan Navigasi Darat</p>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <button onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 2: PROFIL ================= -->
+        <section id="tab-profil" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-md border border-gray-100">
+                
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
+                    <!-- Badge Representation -->
+                    <div class="w-48 h-48 rounded-full border-4 border-lpa-gold bg-lpa-green flex flex-col items-center justify-center text-center p-4 shadow-xl shrink-0">
+                        <i class="fa-solid fa-mountain text-3xl text-white mb-1"></i>
+                        <span class="text-lpa-gold font-extrabold text-lg leading-tight">LPA MUHAJA</span>
+                        <span class="text-white text-xs mt-1 border-t border-lpa-gold/50 pt-1">ESTD 2025</span>
+                    </div>
+
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-lpa-darkgreen mb-2">Profil LPA SMK Muhaja</h2>
+                        <p class="text-lpa-gold font-bold text-lg mb-4">Motto: "Bhawa Bhumi Angkasa"</p>
+                        <p class="text-gray-600 leading-relaxed">
+                            Laskar Pecinta Alam (LPA) SMK Muhaja didirikan pada tahun 2025 sebagai wadah pengembangan diri siswa-siswi dalam bidang kepecintaan alam, pelestarian lingkungan, keselamatan di alam bebas, dan pembentukan jiwa kepemimpinan yang tangguh.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-6 border-gray-200">
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-lpa-cream p-6 rounded-xl border-l-4 border-lpa-green">
+                        <h3 class="font-bold text-lg text-lpa-darkgreen mb-2 flex items-center">
+                            <i class="fa-solid fa-eye mr-2 text-lpa-gold"></i> Visi
+                        </h3>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Mewujudkan generasi muda SMK Muhaja yang bertakwa, berkarakter tangguh, peduli terhadap kelestarian lingkungan hidup, serta memiliki keterampilan navigasi dan survival di alam bebas.
+                        </p>
+                    </div>
+
+                    <div class="bg-lpa-cream p-6 rounded-xl border-l-4 border-lpa-gold">
+                        <h3 class="font-bold text-lg text-lpa-darkgreen mb-2 flex items-center">
+                            <i class="fa-solid fa-bullseye mr-2 text-lpa-green"></i> Misi
+                        </h3>
+                        <ul class="text-gray-700 text-sm leading-relaxed list-disc list-inside space-y-1">
+                            <li>Menyelenggarakan pendidikan dasar kepecintaan alam.</li>
+                            <li>Mengadakan kegiatan reboisasi dan aksi peduli lingkungan.</li>
+                            <li>Melatih kedisiplinan, solidaritas, dan kerja sama tim.</li>
+                            <li>Menjaga nama baik almamater SMK Muhaja di setiap kegiatan.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 3: KEGIATAN & GOOGLE DRIVE ================= -->
+        <section id="tab-kegiatan" class="tab-content hidden space-y-8">
+            
+            <!-- Google Drive Box Section -->
+            <div class="bg-gradient-to-r from-lpa-darkgreen to-lpa-green text-white p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-lpa-gold flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center sm:text-left">
+                    <h3 class="text-2xl font-bold flex items-center justify-center sm:justify-start">
+                        <i class="fa-brands fa-google-drive text-lpa-gold text-3xl mr-3"></i> Google Drive Galeri & File
+                    </h3>
+                    <p class="text-gray-200 text-sm max-w-xl">
+                        Akses seluruh arsip foto kegiatan, dokumen, serta berkas penting LPA SMK Muhaja melalui direktori Google Drive resmi kami.
+                    </p>
+                </div>
+                
+                <!-- ======================================================== -->
+                <!-- EDIT LINK GOOGLE DRIVE DI BAWAH INI (Ganti tanda #)      -->
+                <!-- ======================================================== -->
+                <a href="https://drive.google.com/drive/folders/1oJRDPB7afTViGDAL8SAWq-MPiMJmvzHc" target="_blank" class="shrink-0 bg-lpa-gold hover:bg-lpa-lightgold text-lpa-darkgreen font-extrabold px-6 py-3 rounded-xl transition shadow-md flex items-center">
+                    <i class="fa-solid fa-folder-open mr-2"></i> Buka Google Drive
+                </a>
+            </div>
+
+            <!-- List Kegiatan -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100">
+                <h3 class="text-2xl font-bold text-lpa-darkgreen mb-6">Agenda & Kegiatan</h3>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="border rounded-xl overflow-hidden hover:shadow-lg transition bg-gray-50">
+                        <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80" class="w-full h-40 object-cover" alt="Diksar">
+                        <div class="p-4">
+                            <span class="text-xs bg-lpa-green text-white font-bold px-2 py-1 rounded">Rutin</span>
+                            <h4 class="font-bold text-lg mt-2 text-lpa-darkgreen">Pendidikan Dasar (DIKSAR)</h4>
+                            <p class="text-xs text-gray-500 mt-1">Pelatihan materi navigasi darat, survival, dan manajemen perjalanan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="border rounded-xl overflow-hidden hover:shadow-lg transition bg-gray-50">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" class="w-full h-40 object-cover" alt="Reboisasi">
+                        <div class="p-4">
+                            <span class="text-xs bg-lpa-gold text-lpa-darkgreen font-bold px-2 py-1 rounded">Lingkungan</span>
+                            <h4 class="font-bold text-lg mt-2 text-lpa-darkgreen">Aksi Reboisasi & Bersih Alam</h4>
+                            <p class="text-xs text-gray-500 mt-1">Kegiatan penanaman pohon dan pembersihan jalur pendakian.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="border rounded-xl overflow-hidden hover:shadow-lg transition bg-gray-50">
+                        <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=600&q=80" class="w-full h-40 object-cover" alt="Camping">
+                        <div class="p-4">
+                            <span class="text-xs bg-lpa-green text-white font-bold px-2 py-1 rounded">Tahunan</span>
+                            <h4 class="font-bold text-lg mt-2 text-lpa-darkgreen">Kemah Keakraban (KEMBAR)</h4>
+                            <p class="text-xs text-gray-500 mt-1">Malam keakraban seluruh anggota dan pengurus LPA Muhaja.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 4: ABSEN (LINK ABSENSI) ================= -->
+        <section id="tab-absen" class="tab-content hidden">
+            <div class="max-w-2xl mx-auto bg-white p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-100 text-center space-y-6">
+                
+                <div class="w-20 h-20 bg-lpa-cream rounded-full flex items-center justify-center mx-auto text-lpa-green border-2 border-lpa-gold">
+                    <i class="fa-solid fa-clipboard-check text-4xl"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl font-extrabold text-lpa-darkgreen">Presensi / Absensi LPA Muhaja</h2>
+                    <p class="text-gray-500 mt-2 text-sm">
+                        Silakan klik tombol di bawah ini untuk mengisi daftar hadir kegiatan atau kumpul rutin LPA SMK Muhaja.
+                    </p>
+                </div>
+
+                <!-- Card Form Link -->
+                <div class="p-6 bg-lpa-cream rounded-xl border border-lpa-gold/40">
+                    <p class="text-xs text-gray-500 mb-4 uppercase font-bold tracking-wider">Form Presensi Online</p>
+                    
+                    <!-- ======================================================== -->
+                    <!-- EDIT LINK ABSENSI DI BAWAH INI (Ganti tanda #)          -->
+                    <!-- ======================================================== -->
+                    <a href="https://antonsetiawan65-creator.github.io/absenlpa/" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto bg-lpa-green hover:bg-lpa-darkgreen text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition duration-200 border border-lpa-gold">
+                        <i class="fa-solid fa-pen-to-square mr-3 text-lpa-gold"></i> Buka Link Presensi
+                    </a>
+                </div>
+
+                <p class="text-xs text-gray-400 italic">
+                    *Pastikan Anda mengisi data presensi dengan benar dan jujur.
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-lpa-darkgreen text-white border-t-2 border-lpa-gold mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-bold tracking-wide text-lpa-gold">LPA MUHAJA — ESTD 2025</p>
+            <p class="text-xs text-gray-300">BHAWA BHUMI ANGKASA • SMK MUHAJA</p>
+            <p class="text-xs text-gray-400 pt-2">&copy; 2026 Laskar Pecinta Alam SMK Muhaja. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FOR TABS & CAROUSEL -->
+    <script>
+        // Tab Navigation Function
+        function switchTab(tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Show selected tab
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Update active state on navigation buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('bg-lpa-gold', 'text-lpa-darkgreen', 'shadow');
+                btn.classList.add('hover:bg-lpa-green', 'text-gray-200');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('hover:bg-lpa-green', 'text-gray-200');
+                activeBtn.classList.add('bg-lpa-gold', 'text-lpa-darkgreen', 'shadow');
+            }
+
+            // Scroll to top smooth
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Image Carousel Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto slide carousel every 4 seconds
+        setInterval(nextSlide, 4000);
+    </script>
+</body>
+</html>
